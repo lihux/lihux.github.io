@@ -200,7 +200,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -210,7 +210,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -282,7 +282,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-16T15:20:12+08:00">
                 2017-07-16
@@ -488,20 +488,20 @@
 </div>
 <p>如果全部列全，则上面这个表格将会有$2^{32}$列，也即<code>4 294 967 296</code>列！约<code>42.9</code>亿列，马云爸爸的银行卡账户如果用这个<code>32</code>位的整形表示则肯定是要溢出的！^<em>^，年前王健林曾说要先定一个小目标，<strong>比如说先赚它一个亿</strong>，那对于码农的我来说，我也定个小目标：<strong>10年以后，我的银行卡余额要让w位 $\vec x$ 表示的无符号整数产生溢出</strong> ^</em>^，但问题是这个<code>w</code>会是多少呢？<br>则<strong>无符号数</strong>的编码函数可以定义为（<code>B2U == Binary to Unsigned Integer</code>）：</p>
 <script type="math/tex; mode=display">y = f(\vec x) = B2U_w(\vec x) \stackrel{·}{=} \sum_{i=0}^{w-1}x_i2^i, w = 32, x_i = {0, 1}</script><p>数学公式的魅力就是非常简洁、精确的表达了某种确定的函数关系，比如上面这个公式，就一行，就说明了一切。但数学公式简洁的同时，却又不够直观，可能有些人看了半天才明白，而另外一些人则始终看不明白^_^。好吧，让我们来直观一些用图说话：</p>
-<p><strong>无符号数</strong>的编码函数$B2U_w(\vec x)$产生的映射结果是：<br><img src="./WX20170712-073426@2x.png" alt="|center|500x0"></p>
+<p><strong>无符号数</strong>的编码函数$B2U_w(\vec x)$产生的映射结果是：<br><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_1@2x.png" alt="|center|500x0"></p>
 <center>图-1`32`位二进制数表示的无符号整数映射表</center>
 ### 3.整数（负整数、正整数和0）
 在上一小节中我们知道，`32 bit`的二进制序列的所有组合是一个有限集合，集合中元素的个数是 $ 2^{32} $，它所能表示的**无符号整数**的范围也刚好是$2^{32}$个，那么现在要用这$2^{32}$个元素表示**整数**，那么显然，依然是只能表示最多$2^{32}$个整数集合，但是整数还包含有**负数**，那么直觉告诉我们，它所能表示的**整数**肯定会减半的，事实上也正是如此。不过比较尴尬的是，现在能表示的整数个数是偶数，但我们又刚好又一个`0`既非**正整数**，也不是**负整数**，那么剩下的$2^{32}-1$个元素所能表示的**正整数**和**负整数**的个数必然不是相等的**（除非0也用两个元素表示，分表为$\stackrel{+}{-}0$，实际上还真有这么表示的）**，一个为$2^{31}$另外一个为$2^{31}-1$，由此，很自然的我们就能推导出：**最大正整数和最大负整数的绝对值是不相等的！**。
 
 为了简化我们的**整数表示**的推演，我们这里讲前面的`32 bit`二进制流再进一步简化为`4 bit`，那么在这种情况下，所能表示的无符号整数有`0`到`15`，共`16`个，全部集合见下图：
-![|center|0x400](./WX20170712-224315@2x.png)
+![|center|0x400](http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_2@2x.png)
 <center>图-2 四位二进制数表示的无符号整数集合映射关系图</center>
 现在我们想要用同样的`16`个二进制集合表示`整数`，那么显然我们就被迫要从这表示的**无符号整数**中**挤掉**`7`个或者`8`个**正整数**用以表示**负整数**，那么显然为了保持表示**整数值域**的**连续性**，我们剔除掉`8~15`共`8`位来表示**负数或者-0**，但是问题又来了，这剩下的`8`位该如何表示**负数**？我们不妨脑洞大开，自己设计一下吧，能想到的至少有四种方案：
-![|center|0x400](./WX20170712-230107@2x.png)
+![|center|0x400](http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_3@2x.png)
 <center>图-3 四位二进制数表示的整数集合映射关系方案1&2</center>
 
-<p><img src="./WX20170712-231114@2x.png" alt="@. | center | 0x400"></p>
-<p><center>图-4 四位二进制数表示的整数集合映射关系方案3&4</center><br>事实上映射方案远不止这些，如果我们让正整数的映射位置不和无符号整数的映射位置保持一致的话，我们还可以这样映射：将无符号整数的映射关系整体上移（-8）如图：<br><img src="./WX20170713-065353@2x.png" alt="|center|0x400"></p>
+<p>![@. | center | 0x400](<a href="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_4@2x.png" target="_blank" rel="external">http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_4@2x.png</a></p>
+<p><center>图-4 四位二进制数表示的整数集合映射关系方案3&4</center><br>事实上映射方案远不止这些，如果我们让正整数的映射位置不和无符号整数的映射位置保持一致的话，我们还可以这样映射：将无符号整数的映射关系整体上移（-8）如图：<br><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_5@2x.png" alt="|center|0x400"></p>
 <p>这五种编码方案，我们很容易写出他们的映射函数：</p>
 <p><strong>Case1</strong>：</p>
 <script type="math/tex; mode=display">y = f(\vec x) = B2X_w(\vec x) \stackrel{·}{=} -x_{w-1}(2^{w-1}-2) + \sum_{i=0}^{w-2}x_i2^i, w = 32, x_i = {0, 1}</script><p><strong>Case2</strong>：</p>
@@ -615,7 +615,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-04T22:20:08+08:00">
                 2017-07-04
@@ -823,7 +823,7 @@
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
                 <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -836,7 +836,7 @@
             <div class="site-state-item site-state-tags">
               
                 <span class="site-state-item-count">1</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               
             </div>
           
@@ -886,7 +886,7 @@
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
