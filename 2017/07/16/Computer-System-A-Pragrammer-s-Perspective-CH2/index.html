@@ -105,7 +105,7 @@
 <meta property="og:image" content="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_3@2x.png">
 <meta property="og:image" content="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_4@2x.png">
 <meta property="og:image" content="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_5@2x.png">
-<meta property="og:updated_time" content="2017-07-18T15:10:36.000Z">
+<meta property="og:updated_time" content="2017-07-18T15:19:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="第2章 信息的表示和处理:用01表达整个世界">
 <meta name="twitter:description" content="1. 概述从程序员的角度来看计算机中的数据类型，对于绝大多数语言而言，基本上都会有整数、浮点数、字符串和二进制串这几种数据类型，但在计算机系统中，如果追溯到最底层，这些不同种类的信息的表示，都会归结为最简单的01串的有限组合： 01010101010100101010101011111110001111110000111111100011110001000001010011111111110101">
@@ -496,15 +496,12 @@
 <p><strong>无符号数</strong>的编码函数$B2U_w(\vec x)$产生的映射结果是：<br><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_1@2x.png" alt="|center|500x0"><br> 图-1<code>32</code>位二进制数表示的无符号整数映射表 </p>
 <h3 id="3-整数（负整数、正整数和0）"><a href="#3-整数（负整数、正整数和0）" class="headerlink" title="3.整数（负整数、正整数和0）"></a>3.整数（负整数、正整数和0）</h3><p>在上一小节中我们知道，<code>32 bit</code>的二进制序列的所有组合是一个有限集合，集合中元素的个数是 $ 2^{32} $，它所能表示的<strong>无符号整数</strong>的范围也刚好是$2^{32}$个，那么现在要用这$2^{32}$个元素表示<strong>整数</strong>，那么显然，依然是只能表示最多$2^{32}$个整数集合，但是整数还包含有<strong>负数</strong>，那么直觉告诉我们，它所能表示的<strong>整数</strong>肯定会减半的，事实上也正是如此。不过比较尴尬的是，现在能表示的整数个数是偶数，但我们又刚好又一个<code>0</code>既非<strong>正整数</strong>，也不是<strong>负整数</strong>，那么剩下的$2^{32}-1$个元素所能表示的<strong>正整数</strong>和<strong>负整数</strong>的个数必然不是相等的<strong>（除非0也用两个元素表示，分表为$\stackrel{+}{-}0$，实际上还真有这么表示的）</strong>，一个为$2^{31}$另外一个为$2^{31}-1$，由此，很自然的我们就能推导出：<strong>最大正整数和最大负整数的绝对值是不相等的！</strong>。</p>
 <p>为了简化我们的<strong>整数表示</strong>的推演，我们这里讲前面的<code>32 bit</code>二进制流再进一步简化为<code>4 bit</code>，那么在这种情况下，所能表示的无符号整数有<code>0</code>到<code>15</code>，共<code>16</code>个，全部集合见下图：</p>
-<p><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_2@2x.png" alt="|center|0x400"></p>
-<p> 图-2 四位二进制数表示的无符号整数集合映射关系图 </p>
+<p><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_2@2x.png" alt="|center|0x400"><br> 图-2 四位二进制数表示的无符号整数集合映射关系图 </p>
 <p>现在我们想要用同样的<code>16</code>个二进制集合表示<code>整数</code>，那么显然我们就被迫要从这表示的<strong>无符号整数</strong>中<strong>挤掉</strong><code>7</code>个或者<code>8</code>个<strong>正整数</strong>用以表示<strong>负整数</strong>，那么显然为了保持表示<strong>整数值域</strong>的<strong>连续性</strong>，我们剔除掉<code>8~15</code>共<code>8</code>位来表示<strong>负数或者-0</strong>，但是问题又来了，这剩下的<code>8</code>位该如何表示<strong>负数</strong>？我们不妨脑洞大开，自己设计一下吧，能想到的至少有四种方案：</p>
-<p><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_3@2x.png" alt="|center|0x400"></p>
-<p> 图-3 四位二进制数表示的整数集合映射关系方案1&amp;2 </p>
-<p><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_4@2x.png" alt="|center|0x400"></p>
-<p> 图-4 四位二进制数表示的整数集合映射关系方案3&amp;4 </p>
+<p><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_3@2x.png" alt="|center|0x400"><br> 图-3 四位二进制数表示的整数集合映射关系方案1&amp;2 </p>
+<p><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_4@2x.png" alt="|center|0x400"><br> 图-4 四位二进制数表示的整数集合映射关系方案3&amp;4 </p>
 <p>事实上映射方案远不止这些，如果我们让正整数的映射位置不和无符号整数的映射位置保持一致的话，我们还可以这样映射：将无符号整数的映射关系整体上移（-8）如图：</p>
-<p><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_5@2x.png" alt="|center|0x400"></p>
+<p><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_5@2x.png" alt="|center|0x400"><br>图-5 将无符号整数的映射关系整体上移</p>
 <p>这五种编码方案，我们很容易写出他们的映射函数：</p>
 <p><strong>Case1</strong>：</p>
 <script type="math/tex; mode=display">y = f(\vec x) = B2X_w(\vec x) \stackrel{·}{=} -x_{w-1}(2^{w-1}-2) + \sum_{i=0}^{w-2}x_i2^i, w = 32, x_i = {0, 1}</script><p><strong>Case2</strong>：</p>
