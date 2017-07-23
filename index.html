@@ -321,122 +321,106 @@
       
         
           
-            <h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h3><p>从程序员的角度来看计算机中的数据类型，对于绝大多数语言而言，基本上都会有<code>整数</code>、<code>浮点数</code>、<code>字符串</code>和<code>二进制串</code>这几种数据类型，但在计算机系统中，如果追溯到最底层，这些不同种类的<code>信息</code>的表示，都会归结为最简单的<code>01</code>串的有限组合：</p>
-<pre><code>0101010101010010101010101111111000111111000011111110001111000100000101001111111111010110101011111111110100001010101100001000101010
-</code></pre><p>在最底层的计算机硬件实现里，<code>1</code>一般会用一个高电平或者脉冲表示，而<code>0</code>则会用一个低电平或者脉冲表示，回忆一下大学里学的随便一个简单的电子芯片，比如<code>3-8译码器</code>你去翻它的<a href="http://www.alldatasheet.com/view.jsp?Searchword=74LS138" target="_blank" rel="external">Datas sheet</a>，就会在最底层的计算机硬件里，发现<code>01</code>的真实身份就是一个个具体的<code>电信号</code>，信息的<code>存储、传送、加工</code>，最终、也是最真实的面目就是这些电信号流在<code>CPU、内存、外存、乃至网络</code>中的<code>游走、转移和各种位级的运算</code>，这些底层的<code>电信号</code>的活动，被一层层的<code>抽象</code>、<code>汇聚</code>成<code>更高级</code>、<code>也更复杂</code>的计算机软硬件理论及知识体系。</p>
-<p><code>深入理解计算机系统</code>这本书的最终目的就是这些<code>01</code>串所组成的大千世界的具体轮廓给讲清楚，其方式是最简单的至底向上的逐层讲解。而在<code>本章</code>，则关注的就是最底层的<code>01</code>信号具体是如何抽象表示更高一层的各种<code>基础数据类型</code>和<code>基础数据操作</code>的。</p>
-<p>本章共5小节，除去最后一小节的总结内容，前四节分别介绍了<code>信息存储</code>、<code>整数表示</code>、<code>整数运算</code>和<code>浮点数</code>，从全章的目录来看，本章的内容非常清晰，就是计算机底层的<code>01</code>串是<code>如何存储</code>、<code>如何表示</code>的。更数学一点的概括，就是介绍了几个转换函数，输入是计算机所擅长的<code>01</code>二进制串，输出是我们所熟悉的<code>十进制数</code>，以及如果通过<code>二进制的算术九三以及逻辑操作</code>来<strong>模拟实现</strong><code>十进制数中的算术计算以及逻辑操作</code>。这几种<code>函数</code>的特点是：</p>
+            <h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h3><p>对于绝大多数语言而言，基本上都会有<code>整数</code>、<code>浮点数</code>、<code>字符串</code>和<code>二进制串</code>这几种数据类型，但在计算机系统中，如果追溯到最底层，这些不同种类的<code>信息</code>的表示，都会归结为最简单的<code>01</code>串的有限组合：</p>
+<p>0101010101010010101010101111111000111111000011111110001111000100000101001111111111010110101011111111110100001010101100001000101010</p>
+<p>在最底层的计算机硬件实现里，<code>1</code>一般会用一个高电平表示，而<code>0</code>则会用一个低电平表示，回忆一下大学里学的随便一个简单的电子芯片，比如<code>3-8译码器</code>你去翻它的<a href="http://www.alldatasheet.com/view.jsp?Searchword=74LS138" target="_blank" rel="external">Datas sheet</a>，就会在最底层的计算机硬件里，发现<code>01</code>的真实身份就是一个个具体的<code>电信号</code>，信息的<code>存储、传送、加工</code>，最终、也是最真实的面目就是这些电信号流在<code>CPU、内存、外存、乃至网络</code>中的<code>游走、转移和各种位级的运算</code>，这些底层的<code>电信号</code>的活动，被一层层的<code>抽象</code>、<code>汇聚</code>成<code>更高级</code>、<code>也更复杂</code>的计算机软硬件理论及知识体系。</p>
+<p><code>深入理解计算机系统</code>这本书的最终目的就是这些<code>01</code>串所组成的大千世界的具体轮廓给讲清楚，其方式是最简单的至底向上的逐层讲解。而在<code>本章</code>关注的是最底层的<code>01</code>信号具体是如何抽象表示更高一层的各种<code>基础数据类型</code>和<code>基础数据操作</code>的。</p>
+<p>本章共5小节，除去最后一小节的总结内容，前四节分别介绍了<code>信息存储</code>、<code>整数表示</code>、<code>整数运算</code>和<code>浮点数</code>，从全章的目录来看，本章的内容非常清晰，就是计算机底层的<code>01</code>串是<code>如何存储</code>、<code>如何表示</code>的。更数学一点的概括，就是介绍了几个转换函数，输入是计算机所擅长的<code>01</code>二进制串，输出是我们所熟悉的<code>十进制数</code>，以及如何通过<code>位级的算术计算以及逻辑操作</code>来<strong>模拟实现</strong><code>十进制数中的算术计算以及逻辑操作</code>。这几种<code>函数</code>的特点是：</p>
 <ul>
 <li>输入都是<code>01</code>二进制串</li>
-<li><p>输出则是符合各种意义和模式的<code>基础数据类型</code><br>函数体如下：</p>
-<script type="math/tex; mode=display">y = f(x), x=0101010, y = int, char, float...</script><p>本章的内容就是介绍了这么几种转换函数$ f(x)$。</p>
-<h3 id="2-信息的表示所带来的问题"><a href="#2-信息的表示所带来的问题" class="headerlink" title="2. 信息的表示所带来的问题"></a>2. 信息的表示所带来的问题</h3><p>在讲具体的函数之前，首先要明白信息是如何在计算机中存储的：大多数的计算使用8位的块（<code>byte</code>，以后统称为<strong>字节</strong>），作为<code>最小的可寻址</code>的内存单元：</p>
-<p>  10010110</p>
-</li>
+<li>输出则是符合各种意义和模式的<code>基础数据类型</code><br>函数体如下：<script type="math/tex; mode=display">y = f(x), x=0101010, y = int, char, float...</script>本章的内容就是介绍了这么几种转换函数$ f(x)$。<h3 id="2-信息的表示所带来的问题"><a href="#2-信息的表示所带来的问题" class="headerlink" title="2. 信息的表示所带来的问题"></a>2. 信息的表示所带来的问题</h3>在讲具体的函数之前，首先要明白信息是如何在计算机中存储的：几乎所有的计算使用8位的块（<code>byte</code>，以后统称为<strong>字节</strong>），作为<code>最小的可寻址</code>的内存单元：</li>
 </ul>
-<p>程序数据、指令和控制信息，都是由这些<code>bytes</code>的组装起来的，对于多<strong>字节</strong>的数据类型来说，就有一个<code>字节序</code>如何存储和解析的问题：这就是著名的<a href="https://en.wikipedia.org/wiki/Endianness" target="_blank" rel="external">大小端</a>问题。</p>
+<p>10010110</p>
+<p>程序数据、指令和控制信息，都是由这些<code>bytes</code>的组装起来的，对于多<strong>字节</strong>的数据类型来说，就有一个<code>字节序</code>如何存储和解析的问题：这就是著名的<a href="https://en.wikipedia.org/wiki/Endianness" target="_blank" rel="external">大小端</a>问题：</p>
 <p>在将一个<code>多字节</code>表示的<code>程序对象</code>存储到连续的<code>地址空间</code>的时候，我们必然要面临两个问题：</p>
 <ul>
 <li>这个对象的地址是什么？</li>
 <li>在内存中如何排列这些字节？<br>在几乎所有机器上，这两个问题的答案都将是：</li>
-<li>多字节都被存储为连续的字节序列，对象的地址为<strong>所使用字节中最小的地址</strong>；</li>
-<li>对于大多数<code>Intel</code>兼容机都只用小端模式，而许多新的微处理器的大小端是可选的，也即所谓的<code>bi-endian</code>，比如<code>ARM</code>微处理器，但有意思的是运行于其上的两种最流行的<code>Android</code>和<code>iOS</code>却只能运行于小端模式；</li>
+<li>多字节都被存储为<strong>连续</strong>的字节序列，对象的地址为<strong>所使用字节中最小的地址</strong>；</li>
+<li>对于大多数<code>Intel</code>兼容机都只用小端模式，而许多新的微处理器的大小端是可选的，也即所谓的双端机（<code>bi-endian</code>），比如<code>ARM</code>微处理器，但有意思的是运行于其上的两种最流行的<code>Android</code>和<code>iOS</code>却只能运行于小端模式；</li>
 <li>在网络中进行的传送的<code>字节序</code>都统一使用<code>大端模式</code>，这是事实上的网络协议簇<code>TCP/IP</code>中明确指定的。</li>
 </ul>
-<p>为了更好的理解<code>大小端</code>，我们以一个简单的32位整形变量的存储来说明问题，为了便于表示，我们采用<code>十六进制</code>：</p>
-<pre><code>int32_t dog = 0x99887700
-</code></pre><p>数学常识告诉我们<code>99</code>是最高字节，<code>00</code>是最低字节，这种排列是<code>从左到右</code>按照<code>从高字节到低字节</code>的顺序排列的，这里的<code>高字节</code>就意味着其拥有更高的<code>权重</code>或者：<code>power</code>，这种排列顺序就是所谓的<code>字节序</code>。而当我们要将其存储到内存中的时候，我们又将遇到<code>地址序</code>这一概念，其实很简单，就是内存中的所有地址都是按照<code>从低到高</code>的顺序进行编址的：比如我们常说的<code>32位机</code>它的<code>寻址空间</code>是$0$到$2^{32} - 1$，也就是<code>4GB</code>大小，这些地址都是按照<code>0</code>到<code>最高位</code>排列的。</p>
-<p>仍以上文中的<code>32 bit</code>长度的<code>dog</code>变量为例，假设其内存中的地址为<code>0x324580</code>，由<strong>最小寻址单元</strong>为<code>byte</code>也即<code>8 bit</code>我们可知，<code>dog</code>将占用<code>4 字节</code>的内存空间，那么这<code>4字节</code>该如何存储呢？答案是可见下图：</p>
-<p>图中地址从下往上增长，在<strong>小端系统</strong>中地址由低到高分别存储的是<code>00 77 88 99</code>，即<strong>低地址存低字节</strong>，而<strong>大端系统</strong>则刚好相反：地址由低到高分别存储的是<code>99 88 77 00</code>，即<strong>低地址存高字节</strong>。这就是<strong>大小端</strong>的最本质区别。</p>
+<p>那么为什么<code>TCP/IP</code>协议里规定一定要使用<strong>大端法</strong>表示<strong>网络字节序</strong>呢？先不急着回答这个问题，我们先来看看什么是<strong>大端</strong>和<strong>小端</strong>。</p>
+<p>在本文前面我们提到目前计算机的<strong>最小寻址单元</strong>是<strong>1字节</strong>。而<strong>大小端</strong>问题存在的根本原因就是：</p>
+<p><strong>很多基础数据类型的二进制表示的长度超出了计算机的最小寻址单元（1字节 or byte），在存储这些超过最小寻址单元的数据类型的值的时候，就必然要指定拆分后的若干块的存储顺序。</strong></p>
+<p>下图列出了<code>C语言声明</code>的基础数据类型在<strong>32位计算机</strong>和<strong>64位计算机</strong>上的字节数：</p>
 <div class="table-container">
 <table>
 <thead>
 <tr>
-<th style="text-align:left">地址</th>
-<th style="text-align:right">存储值（小端系统：如绝大多数系统）</th>
-<th style="text-align:right">存储值（大端系统：如网络字节序）</th>
+<th style="text-align:center">数据类型</th>
+<th style="text-align:center">32位计算机系统</th>
+<th style="text-align:center">64位计算机系统</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left">0xffffffff</td>
-<td style="text-align:right">*</td>
-<td style="text-align:right">*</td>
+<td style="text-align:center">[signed] char / unsigned char</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
 </tr>
 <tr>
-<td style="text-align:left">0xfffffffe</td>
-<td style="text-align:right">*</td>
-<td style="text-align:right">*</td>
+<td style="text-align:center">short / unsigned short</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2</td>
 </tr>
 <tr>
-<td style="text-align:left">0xfffffffd</td>
-<td style="text-align:right">*</td>
-<td style="text-align:right">*</td>
+<td style="text-align:center">int / unsigned</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">4</td>
 </tr>
 <tr>
-<td style="text-align:left">……</td>
-<td style="text-align:right">*</td>
-<td style="text-align:right">*</td>
+<td style="text-align:center">long / unsigned long</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">8</td>
 </tr>
 <tr>
-<td style="text-align:left">……</td>
-<td style="text-align:right">*</td>
-<td style="text-align:right">*</td>
+<td style="text-align:center">int32_t / uint32_t</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">4</td>
 </tr>
 <tr>
-<td style="text-align:left">0x08324532</td>
-<td style="text-align:right">*</td>
-<td style="text-align:right">*</td>
+<td style="text-align:center">int64_t / uint_64</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">8</td>
 </tr>
 <tr>
-<td style="text-align:left">……</td>
-<td style="text-align:right">*</td>
-<td style="text-align:right">*</td>
+<td style="text-align:center">char <em> /void </em> / int * …</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">8</td>
 </tr>
 <tr>
-<td style="text-align:left">0x01324583</td>
-<td style="text-align:right">0x99</td>
-<td style="text-align:right">0x00</td>
+<td style="text-align:center">float</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">4</td>
 </tr>
 <tr>
-<td style="text-align:left">0x01324582</td>
-<td style="text-align:right">0x88</td>
-<td style="text-align:right">0x77</td>
-</tr>
-<tr>
-<td style="text-align:left">0x01324581</td>
-<td style="text-align:right">0x77</td>
-<td style="text-align:right">0x88</td>
-</tr>
-<tr>
-<td style="text-align:left">0x01324580</td>
-<td style="text-align:right">0x00</td>
-<td style="text-align:right">0x99</td>
-</tr>
-<tr>
-<td style="text-align:left">……</td>
-<td style="text-align:right">*</td>
-<td style="text-align:right">*</td>
-</tr>
-<tr>
-<td style="text-align:left">0x00000010</td>
-<td style="text-align:right">*</td>
-<td style="text-align:right">*</td>
-</tr>
-<tr>
-<td style="text-align:left">0x00000001</td>
-<td style="text-align:right">*</td>
-<td style="text-align:right">*</td>
-</tr>
-<tr>
-<td style="text-align:left">0x00000000</td>
-<td style="text-align:right">*</td>
-<td style="text-align:right">*</td>
+<td style="text-align:center">double</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">4</td>
 </tr>
 </tbody>
 </table>
 </div>
-<h3 id="3-整数的表示"><a href="#3-整数的表示" class="headerlink" title="3.整数的表示"></a>3.整数的表示</h3><h3 id="3-1无符号整数（正整数和0）"><a href="#3-1无符号整数（正整数和0）" class="headerlink" title="3.1无符号整数（正整数和0）"></a>3.1无符号整数（正整数和0）</h3><p>在我们上小学的一二年级的时候，我们的数学世界是非常干净的：没有小数、没有负数，更不用提无理数了，那个时候我们以为仅仅是<strong>正整数</strong>就足以表达整个世界，后来我们发现，是我们太幼稚了，这个世界太复杂，复杂到必须要造出那么多复杂的数才够用。<br>计算机世界里的<strong>抽象</strong>都是对真实世界的<strong>模拟</strong>，因此这种<strong>抽象</strong>必须要包含各种复杂的<strong>数</strong>，同样的，我们先从最简单（至少是看上去最简单）的整数的表示讲起，我们这里约定计算机世界里用一个<code>32 bit</code>的内存来存放一个<strong>整数</strong>。我们来看看如何用这<code>32 bit</code>内存空间来存储和表示<strong>正整数（也即无符号数）</strong>和<strong>整数</strong>：</p>
+<p><strong>lihux.me-1</strong> C语言中常见的数据类型及其在不同系统中的字长</p>
+<p>当一个数据类型长度大于<strong>1最小寻址单元</strong>的时候(在<strong>C语言</strong>中<code>sizeof(type) &gt; 1</code>)，如果它的一个<strong>值</strong>如果要存入内存中，那么<strong>1个内存单元</strong>显然是不够的，需要将<strong>实例</strong>进行<strong>拆分</strong>为<code>sizeof(type)</code>个<strong>数据块</strong>，每一个<strong>数据块</strong>存入一个<strong>最小寻址单元</strong>中。我们以一个简单的32位整形变量的存储来说明问题，为了便于表示，我们采用<code>十六进制</code>：</p>
+<p>int32_t dog = 0x99887700</p>
+<p>数学常识告诉我们<code>99</code>是最高字节，<code>00</code>是最低字节，这种排列是<code>从左到右</code>按照<code>从高字节到低字节</code>的顺序排列的，这里<code>高字节</code>的<code>高</code>就意味着其拥有更高的<code>权重</code>或者：<code>power</code>。现在假设我们的计算机内存只有<strong>4字节</strong>，那么这块内存的地址就是<code>0 1 2 3</code>：<br><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_6@2x.png" alt="@|center|500*0"></p>
+<p>因为我们要存储的<code>0x99887700</code>需要占用<code>4 bytes</code>的存储空间（在这里也就是要占满整个内存），那么我们首先要将<code>0x99887700</code>拆分为4块：<code>99</code>、<code>88</code>、<code>77</code>和<code>00</code>。<br>那么问题来了：该先存入这四块中的哪一个值到内存的第0位呢？<br>按照我们视觉上<strong>从左到右</strong>的阅读习惯，我们会很自然的按照<code>99 88 77 00</code>的顺序存储它们：而这就是所谓的<strong>大端法（big-endian）</strong>：高字节存入到底地址（当然你也可以说是：<code>低地址存高字节</code>）</p>
+<p><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_7@2x.png" alt="@|center|500*0"></p>
+<p>如果按照阿拉伯人的<strong>从右到左</strong>的阅读习惯，按照<code>00 77 88 99</code>的顺序依次存入内存，这就是所谓的<strong>小端法（little-endian）</strong>：低字节存入到低地址（或者说是：<code>低地址存低字节</code>）。</p>
+<p><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_8@2x.png" alt="@|center|500*0"></p>
+<p>好了，关于<strong>大小端</strong>，其实就是这么简单。对于机器而言，选择大端还是小端没有优劣之分。</p>
+<p>最后的最后，我们可以回答一下开头提出的问题了：为什么<code>TCP/IP</code>协议明确要求选用大端表示呢？<br>其实，答案很简单：<code>TCP/IP</code>传输的<code>报文</code>为了便于人们阅读（前面提到了绝大部分人的阅读习惯是从左到右的顺序）。关于这一点，在<code>TCP/IP</code>协议的<a href="https://tools.ietf.org/html/rfc1700" target="_blank" rel="external">RFC1700</a>中也做了说明：</p>
+<blockquote>
+<p>The convention in the documentation of Internet Protocols is to<br>express numbers in decimal and to picture data in “big-endian” order<br>[COHEN].  That is, fields are described left to right, with the most<br>significant octet on the left and the least significant octet on the<br>right.<br>The order of transmission of the header and data described in this<br>document is resolved to the octet level.  Whenever a diagram shows a<br>group of octets, the order of transmission of those octets is the<br>normal order in which they are read in English.</p>
+</blockquote>
+<p>我猜要是阿拉伯人发明的<code>TCP/IP</code>协议，他们肯定会选用<strong>小端法</strong>。</p>
+<h3 id="3-整数的表示"><a href="#3-整数的表示" class="headerlink" title="3.整数的表示"></a>3.整数的表示</h3><p>先说结论，在<strong>C</strong>语言中，整数包括无符号整数和有符合整数，在计算机中他们分别采用<strong>原码</strong>和<strong>补码</strong>予以表示。再留一个问题：为什么无符号整数要用<strong>原码</strong>，而有符合整数却要用<strong>补码</strong>表示呢？</p>
+<p>在我们上小学的一二年级的时候，我们的数学世界是非常干净的：没有小数、没有负数，更不用提无理数了，那个时候我们以为仅仅是<strong>正整数</strong>就足以表达整个世界，后来我们发现，是我们太幼稚了，这个世界太复杂，复杂到必须要造出那么多复杂的数才够用。</p>
+<p>计算机世界里的<strong>抽象</strong>都是对真实世界的<strong>模拟</strong>，因此这种<strong>抽象</strong>必须要包含各种复杂的<strong>数</strong>。</p>
+<h3 id="3-1无符号整数（正整数和0）"><a href="#3-1无符号整数（正整数和0）" class="headerlink" title="3.1无符号整数（正整数和0）"></a>3.1无符号整数（正整数和0）</h3><p>我们先从最简单（至少是看上去最简单）的整数的表示讲起，我们这里约定计算机世界里用一个<code>32 bit</code>的内存来存放一个<strong>整数</strong>。我们来看看如何用这<code>32 bit</code>内存空间来存储和表示<strong>正整数（也即无符号数）</strong>和<strong>整数</strong>：<br><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_9@2x.png" alt="@|center|500*0"></p>
+<p>图<code>lihux.me-5</code>中每一个小方块代表<code>1 bit</code>，每一个小方块都只可能填充<code>0</code>或者<code>1</code>。那么用这些方块的<code>01</code>组合一共有多少种呢？ 答案是$2^{32}$种！</p>
 <p>根据前文介绍的，整数的表示，实际上就是定义一个函数，输入为<code>32 位</code>二进制序列（因为这里我们假定只使用<code>32 bit</code>来表示整数），这里我们引入数学中向量的概念来表示这个输入的二进制序列：</p>
 <script type="math/tex; mode=display">\vec x = [x_{w-1},x_{w-2},...,x_{0}]，w = 32, x_i = {0, 1}</script><p>那么向量$\vec x $的值一共有$2^{w}, w=32$，因此每一个值都可以实际表示一个整数（或者浮点数），剩下的就是定义编码函数对这些值做映射了：</p>
 <div class="table-container">
@@ -463,7 +447,7 @@
 <td style="text-align:center">……</td>
 </tr>
 <tr>
-<td style="text-align:center">$[00011111,01000011,00011011,11111101]$</td>
+<td style="text-align:center">$[x<em>{31}x</em>{30}x<em>{29}x</em>{28}x<em>{27}x</em>{26}x<em>{25}x</em>{24},x<em>{23}x</em>{22}x<em>{21}x</em>{20}x<em>{19}x</em>{18}x<em>{17}x</em>{16},x<em>{15}x</em>{14}x<em>{13}x</em>{12}x<em>{11}x</em>{10}x<em>{9}x</em>{8},x<em>{7}x</em>{6}x<em>{5}x</em>{4}x<em>{3}x</em>{2}x<em>{1}x</em>{0}]$</td>
 </tr>
 <tr>
 <td style="text-align:center">……</td>
@@ -486,25 +470,21 @@
 </tbody>
 </table>
 </div>
-<p>如果全部列全，则上面这个表格将会有$2^{32}$列，也即<code>4 294 967 296</code>列！约<code>42.9</code>亿列，马云爸爸的银行卡账户如果用这个<code>32</code>位的整形表示则肯定是要溢出的！^<em>^，年前王健林曾说要先定一个小目标，<strong>比如说先赚它一个亿</strong>，那对于码农的我来说，我也定个小目标：<strong>10年以后，我的银行卡余额要让w位 $\vec x$ 表示的无符号整数产生溢出</strong> ^</em>^，但问题是这个<code>w</code>会是多少呢？<br>则<strong>无符号数</strong>的编码函数可以定义为（<code>B2U == Binary to Unsigned Integer</code>）：</p>
+<p><strong>lihux.me-6</strong> 32位二进制表示的全部集合<br>如果全部列全，则上面这个表格将会有$2^{32}$列，也即<code>4 294 967 296</code>列！约<code>42.9</code>亿列，马云爸爸的银行卡账户如果用这个<code>32</code>位的整形表示则肯定是要溢出的！^<em>^，年前王健林曾说要先定一个小目标，<strong>比如说先赚它一个亿</strong>，那对于码农的我来说，我也定个小目标：<strong>10年以后，我的银行卡余额要让w位 $\vec x$ 表示的无符号整数产生溢出</strong> ^</em>^，但问题是这个<code>w</code>会是多少呢？<br>则<strong>无符号数</strong>的编码函数可以定义为（<code>B2U == Binary to Unsigned Integer</code>）：</p>
 <script type="math/tex; mode=display">y = f(\vec x) = B2U_w(\vec x) \stackrel{·}{=} \sum_{i=0}^{w-1}x_i2^i, w = 32, x_i = {0, 1}</script><p>数学公式的魅力就是非常简洁、精确的表达了某种确定的函数关系，比如上面这个公式，就一行，就说明了一切。但数学公式简洁的同时，却又不够直观，可能有些人看了半天才明白，而另外一些人则始终看不明白^_^。好吧，让我们来直观一些用图说话：</p>
-<p><strong>无符号数</strong>的编码函数$B2U_w(\vec x)$产生的映射结果是：<br><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_1@2x.png" alt="|center|500x0"><br> 图-1<code>32</code>位二进制数表示的无符号整数映射表 </p>
+<p><strong>无符号数</strong>的编码函数$B2U_w(\vec x)$产生的映射结果是：<br><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_10@2x.png" alt="|center|500x0"></p>
 <h3 id="3-整数（负整数、正整数和0）"><a href="#3-整数（负整数、正整数和0）" class="headerlink" title="3.整数（负整数、正整数和0）"></a>3.整数（负整数、正整数和0）</h3><p>在上一小节中我们知道，<code>32 bit</code>的二进制序列的所有组合是一个有限集合，集合中元素的个数是 $ 2^{32} $，它所能表示的<strong>无符号整数</strong>的范围也刚好是$2^{32}$个，那么现在要用这$2^{32}$个元素表示<strong>整数</strong>，那么显然，依然是只能表示最多$2^{32}$个整数集合，但是整数还包含有<strong>负数</strong>，那么直觉告诉我们，它所能表示的<strong>整数</strong>肯定会减半的，事实上也正是如此。不过比较尴尬的是，现在能表示的整数个数是偶数，但我们又刚好又一个<code>0</code>既非<strong>正整数</strong>，也不是<strong>负整数</strong>，那么剩下的$2^{32}-1$个元素所能表示的<strong>正整数</strong>和<strong>负整数</strong>的个数必然不是相等的<strong>（除非0也用两个元素表示，分表为$\stackrel{+}{-}0$，实际上还真有这么表示的）</strong>，一个为$2^{31}$另外一个为$2^{31}-1$，由此，很自然的我们就能推导出：<strong>最大正整数和最大负整数的绝对值是不相等的！</strong>。</p>
-<p>为了简化我们的<strong>整数表示</strong>的推演，我们这里讲前面的<code>32 bit</code>二进制流再进一步简化为<code>4 bit</code>，那么在这种情况下，所能表示的无符号整数有<code>0</code>到<code>15</code>，共<code>16</code>个，全部集合见下图：</p>
-<p><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_2@2x.png" alt="|center|0x400"><br> 图-2 四位二进制数表示的无符号整数集合映射关系图 </p>
-<p>现在我们想要用同样的<code>16</code>个二进制集合表示<code>整数</code>，那么显然我们就被迫要从这表示的<strong>无符号整数</strong>中<strong>挤掉</strong><code>7</code>个或者<code>8</code>个<strong>正整数</strong>用以表示<strong>负整数</strong>，那么显然为了保持表示<strong>整数值域</strong>的<strong>连续性</strong>，我们剔除掉<code>8~15</code>共<code>8</code>位来表示<strong>负数或者-0</strong>，但是问题又来了，这剩下的<code>8</code>位该如何表示<strong>负数</strong>？我们不妨脑洞大开，自己设计一下吧，能想到的至少有四种方案：</p>
-<p><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_3@2x.png" alt="|center|0x400"><br> 图-3 四位二进制数表示的整数集合映射关系方案1&amp;2 </p>
-<p><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_4@2x.png" alt="|center|0x400"><br> 图-4 四位二进制数表示的整数集合映射关系方案3&amp;4 </p>
-<p>事实上映射方案远不止这些，如果我们让正整数的映射位置不和无符号整数的映射位置保持一致的话，我们还可以这样映射：将无符号整数的映射关系整体上移（-8）如图：</p>
-<p><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_5@2x.png" alt="|center|0x400"></p>
-<p>图-5 将无符号整数的映射关系整体上移</p>
+<p>为了简化我们的<strong>整数表示</strong>的推演，我们这里讲前面的<code>32 bit</code>二进制流再进一步简化为<code>4 bit</code>，那么在这种情况下，所能表示的无符号整数有<code>0</code>到<code>15</code>，共<code>16</code>个，全部集合见下图：<br><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_11@2x.png" alt="Alt text"></p>
+<p>现在我们想要用同样的<code>16</code>个二进制集合表示<code>整数</code>，那么显然我们就被迫要从这表示的<strong>无符号整数</strong>中<strong>挤掉</strong><code>7</code>个或者<code>8</code>个<strong>正整数</strong>用以表示<strong>负整数</strong>，那么显然为了保持表示<strong>整数值域</strong>的<strong>连续性</strong>，我们剔除掉<code>8~15</code>共<code>8</code>位来表示<strong>负数或者-0</strong>，但是问题又来了，这剩下的<code>8</code>位该如何表示<strong>负数</strong>？我们不妨脑洞大开，自己设计一下吧，能想到的至少有四种方案：<br><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_12@2x.png" alt="|center|500x0"></p>
+<p><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_13@2x.png" alt="|center|500x0"></p>
+<p>事实上映射方案远不止这些，如果我们让正整数的映射位置不和无符号整数的映射位置保持一致的话，我们还可以这样映射：将无符号整数的映射关系整体上移（-8）如图：<br><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_14@2x.png" alt="|center|500x0"></p>
 <p>这五种编码方案，我们很容易写出他们的映射函数：</p>
-<p><strong>Case1</strong>：</p>
-<script type="math/tex; mode=display">y = f(\vec x) = B2X_w(\vec x) \stackrel{·}{=} -x_{w-1}(2^{w-1}-2) + \sum_{i=0}^{w-2}x_i2^i, w = 32, x_i = {0, 1}</script><p><strong>Case2</strong>：</p>
-<script type="math/tex; mode=display">y = f(\vec x) = B2S_w(\vec x) \stackrel{·}{=} (-1)^{w-1}· \sum_{i=0}^{w-2}x_i2^i, w = 32, x_i = {0, 1}</script><p><strong>Case3</strong>：</p>
-<script type="math/tex; mode=display">y = f(\vec x) = B2O_w(\vec x) \stackrel{·}{=} -x_{w-1}(2^{w-1}-1) + \sum_{i=0}^{w-2}x_i2^i, w = 32, x_i = {0, 1}</script><p><strong>Case4</strong>：</p>
-<script type="math/tex; mode=display">y = f(\vec x) = B2T_w(\vec x) \stackrel{·}{=} -x_{w-1}·2^{w-1} + \sum_{i=0}^{w-2}x_i2^i, w = 32, x_i = {0, 1}</script><p><strong>Case5</strong>：</p>
-<script type="math/tex; mode=display">y = f(\vec x) = B2Y_w(\vec x) \stackrel{·}{=} -2^{w-1} +\sum_{i=0}^{w-1}x_i2^i, w = 32, x_i = {0, 1}</script><p>在这列举的5中方案中，有3套方案是计算机系统中的<strong>标准表示方法</strong>，但只有一种是<strong>事实上的标准</strong>被几乎所有计算机系统采用：</p>
+<p><strong>方案1</strong>：</p>
+<script type="math/tex; mode=display">y = f(\vec x) = B2X_w(\vec x) \stackrel{·}{=} -x_{w-1}(2^{w-1}-2) + \sum_{i=0}^{w-2}x_i2^i, w = 32, x_i = {0, 1}</script><p><strong>方案2</strong>：</p>
+<script type="math/tex; mode=display">y = f(\vec x) = B2S_w(\vec x) \stackrel{·}{=} (-1)^{w-1}· \sum_{i=0}^{w-2}x_i2^i, w = 32, x_i = {0, 1}</script><p><strong>方案3</strong>：</p>
+<script type="math/tex; mode=display">y = f(\vec x) = B2O_w(\vec x) \stackrel{·}{=} -x_{w-1}(2^{w-1}-1) + \sum_{i=0}^{w-2}x_i2^i, w = 32, x_i = {0, 1}</script><p><strong>方案4</strong>：</p>
+<script type="math/tex; mode=display">y = f(\vec x) = B2T_w(\vec x) \stackrel{·}{=} -x_{w-1}·2^{w-1} + \sum_{i=0}^{w-2}x_i2^i, w = 32, x_i = {0, 1}</script><p><strong>方案5</strong>：</p>
+<script type="math/tex; mode=display">y = f(\vec x) = B2Y_w(\vec x) \stackrel{·}{=} -2^{w-1} +\sum_{i=0}^{w-1}x_i2^i, w = 32, x_i = {0, 1}</script><p>从数学的角度来看，这五种映射方案都是<a href="https://en.wikipedia.org/wiki/Bijection" target="_blank" rel="external">双射 (bijection)</a>，这就保证了 编码的唯一性（双射也称<strong>一一映射</strong>）。<br>在这列举的5中方案中，有3套方案（方案2 原码表示、3 反码表示、4 补码表示）是计算机系统中的<strong>标准表示方法</strong>，但只有补码表示是<strong>事实上的标准</strong>被几乎所有计算机系统采用：</p>
 <div class="table-container">
 <table>
 <thead>
@@ -537,8 +517,80 @@
 </tbody>
 </table>
 </div>
-<p>关于补码和反码中<code>&#39;</code>的位置及其定义说明：<strong>Two’s Complement</strong>来自于：对于非负数$x$,我们用$2^w - x$来计算$-x$的表示，这里有一个$2$，所以是<code>Two&#39;s</code>；但对于补码，则是用$[111···1]-x$来计算补码表示，这里有很多个$1$，所以是<code>Ones&#39;</code>。其实对于这两种编码的记忆，我们也可以从其英文名称中得到启发：</p>
-<p>补码，<strong>Two’s Complement</strong>，对于任意的整数<code>x</code>其<code>w</code>位的补码值和其相反数<code>-x</code>的补码表示值相加刚好是到$2^w$，而反码<strong>Ones’s Complement</strong>表示的<code>x</code>和其相反数相加的值则是$2^w - 1$（也就是<code>w</code>位全是<code>1</code>）。</p>
+<p><strong>lihux.me-12 </strong>计算机系统采用的三种编码方案</p>
+<p>那么为什么只有<strong>补码</strong>会成为计算机系统中整数表示事实上的标准呢？答案就是只有补码能让计算机的算术运算单元<strong>ALU</strong>按照无符号数的加法来计算补码的加法：即<strong>将补码表示的二进制序列看做是无符号数序列，然后对其按照无符号数的加法方法进行相加，得到的结果按照补码的映射规则得到的结果刚好是补码加法应该得到的值！</strong>因此，可以认为<strong>补码</strong>被选中仅仅是因为计算机硬件能够更高效的处理而已。</p>
+<p>为了证明这一点，让我们首先来看一张图：如图<strong>lihux.me-13</strong>所示，我们仍以前文的<code>4 bit</code>整型<code>int4_t</code>值：$x = 2$以及其相反数$y = (-x) = -2$为例，如果我们要计算$ x + y = ?$：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">编码</th>
+<th style="text-align:center">x = 2</th>
+<th style="text-align:center">y = -2</th>
+<th style="text-align:center">x + y</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">原码（Sign-Magnitude）</td>
+<td style="text-align:center">0010</td>
+<td style="text-align:center">1010</td>
+<td style="text-align:center">1100</td>
+</tr>
+<tr>
+<td style="text-align:center">补码（Two’s Complement）</td>
+<td style="text-align:center">0010</td>
+<td style="text-align:center">1110</td>
+<td style="text-align:center">10000（溢出为0000）</td>
+</tr>
+<tr>
+<td style="text-align:center">反码（Ones’Complement））</td>
+<td style="text-align:center">0010</td>
+<td style="text-align:center">1101</td>
+<td style="text-align:center">1111</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>lihux.me-13</strong> 三种编码规则下使用无符号数的加法运算规则计算的值比较</p>
+<p>从图中可以很容易的看到：</p>
+<ul>
+<li>对于原码表示的按照无符号整数的计算结果$1100_2$，根据定义，其最高位是符号位，因而其值转回补码是$-4$，不符合要求；</li>
+<li>对于补码表示的按照无符号整数的计算结果是$10000_2$，但巧妙的是，<strong>最高位发生了溢出</strong>，实际得到的结果是$0$，转回补码表示，结果依然是$0$；</li>
+<li>对于反码表示按照无符号整数的计算结果是$1111_2$，转回反码表示是$-0$，虽然结果正确，但奇葩的是对于$0$它有$+0$何$-0$两种表示，严格意义上并不满足<strong>双射</strong>。</li>
+</ul>
+<p>其实补码和反码的英文名称更能反映出其各自本身的特征：<strong>Two’s Complement</strong>来自于：对于非负数$x$,我们用$2^w - x$来计算$-x$的表示，这里有一个$2$，所以是<code>Two&#39;s</code>；但对于补码，则是用$[111···1]-x$来计算补码表示，这里有很多个$1$，所以是<code>Ones&#39;</code>。</p>
+<p>总结一下就是，采用<strong>补码</strong>表示的<strong>有符号整数</strong>和采用<strong>原码</strong>表示的<strong>无符号整数</strong>，对于计算机的算术运算单元而言，二者都是透明的，它不用去区分不同的编码方式，而只采用一种固定的<strong>运算逻辑</strong>就能实现两种编码表示的算术运算。计算机执行的<strong>整数</strong>运算实际上是一种<strong>模运算形式</strong>，通过<strong>溢出</strong>来巧妙的使得运算结果符合我们的预期。</p>
+<h3 id="4-浮点数：实数在计算机中的表示"><a href="#4-浮点数：实数在计算机中的表示" class="headerlink" title="4.浮点数：实数在计算机中的表示"></a>4.浮点数：实数在计算机中的表示</h3><p>首先说明一点，<strong>浮点数</strong>只是一种计算机表示<strong>实数</strong>的编码规则的统称，并不是数学世界里的一种数据类型。前面我们讲到，真实的世界中原不止<strong>整数</strong>一种数据类型那么简单，<a href="https://en.wikipedia.org/wiki/Real_number" target="_blank" rel="external">实数</a>相比整数是一种范围更大、更实用的数据集合。</p>
+<h4 id="4-1-固定字长表示实数存在的固有问题"><a href="#4-1-固定字长表示实数存在的固有问题" class="headerlink" title="4.1 固定字长表示实数存在的固有问题"></a>4.1 固定字长表示实数存在的固有问题</h4><p>那么问题来了，又是常识告诉我们，浮点数是一个<strong>无限集合</strong>，而我们的<strong>位数固定的二进制序列</strong>是一个<strong>有限集合</strong>，那么我们现在想用一个<strong>有限集合</strong>映射到一个<strong>无限集合</strong>上去，显然映射$f(x)$不可能是<strong>双射</strong>，也就是说浮点数集合中必然有无法从这个<strong>有限集合</strong>映射得到的元素，更进一步讲，是<strong>只有极少数的浮点数能够映射到这个有限集合中</strong>，对于<code>32位</code>的系统，我们所能表示的浮点数最多也就只能有$2^{32}$个。这真是一个很悲观的事实。</p>
+<p>然而，幸亏，我们常人的一般生活中，对浮点数的要求很有限：我们既不太可能经常使用（绝对值）太过于巨大的浮点数（万万万万亿），也不太可能经常使用（绝对值）太过于微小的浮点数。举例来说，当我们小的时候，夏夜仰望星空的时候，我们一定曾问过我们的妈妈：<strong>天上有多少颗星星呢？</strong>，妈妈的回答也许是我们最高听到的最大的数了。美国宇航局<strong>NASA</strong>在它的一篇科目系列<a href="https://helios.gsfc.nasa.gov/qa_star.html#howmany" target="_blank" rel="external">Ask Us</a>中，曾认真的回答了这个问题（虽然没有给出具体的数值，但大概是1后面几十个0）。而最微小的呢，也许是大学物理我们学到的<a href="https://en.wikipedia.org/wiki/Planck_constant" target="_blank" rel="external">普朗克常量</a>，它的值是：</p>
+<script type="math/tex; mode=display">h=6.626\ 070\ 040(81)\times 10^{-34}{\text{ J⋅s}}=4.135\ 667\ 662(25)\times 10^{-15}{\text{ eV⋅s}}</script><p>也不过是小数点后面34个零而已，光是这点浮点数就能穷尽宇宙之浩瀚、之微渺，那我们有完全有理由相信<code>64 bit</code>表示的浮点数已经足够我们用了。</p>
+<p>既然所能表示出来的浮点数集合是有限的，那么<strong>好钢要用在刀刃上</strong>，我们必须要选择将常用的浮点数（精度）都能尽可能精确的表示出来，而对于其他浮点数值，则可以通过<strong>舍入</strong>的办法来表示。</p>
+<h4 id="4-2-为什么选用浮点数而不是定点数表示实数呢？"><a href="#4-2-为什么选用浮点数而不是定点数表示实数呢？" class="headerlink" title="4.2 为什么选用浮点数而不是定点数表示实数呢？"></a>4.2 为什么选用浮点数而不是定点数表示实数呢？</h4><p>先说结论，目前计算机系统采用的浮点数表示都是1980s前后制定的<a href="https://en.wikipedia.org/wiki/IEEE_754" target="_blank" rel="external">IEEE 754标准</a>。再说为什么：</p>
+<h5 id="定点数表示"><a href="#定点数表示" class="headerlink" title="定点数表示"></a>定点数表示</h5><p>和整数相比，实数多了小数部分，也就是<strong>小数点之后还有值</strong>，因此，对于给定的<code>w</code>位表示的浮点数，我们还要拿出一定的位数<code>s</code>来表示小数，这是基本思路。按照这个思路我们一个最直接的方案就是比如对于<code>16</code>位的存储空间，我们选用后<code>7</code>位作为小数部分，<strong>以小数点为原点，每左移一位，其权重就翻倍，每右移一位，其权重就降50%（也即除以2）</strong>。如<strong>lihux.me-14</strong>所示：<br><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_15@2x.png" alt="@|center|400*0"><br>为了表示正实数和负实数，我们选择小数点左边的整数部分采用补码表示，因此我们很容易得到<code>4 bits</code>所能表示的整数范围是$[-8,7]$。而小数点右边表示的小数范围是：$[0/16,  1/16, 2/16, …, 15/16]$，因此我们得到<code>8 bits</code>定点表示的实数范围是：$[-8,7].[0/16,  1/16, 2/16, …, 15/16]$，共计$16 * 16 = 256$个浮点数。为了对这些点的分布有一个直观的理解，我在自己的<a href="https://github.com/lihux/LHiOSAccumulates" target="_blank" rel="external">Demo App</a>中将这些点给画出来了：</p>
+<p><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_16@2x.png" alt="@|center|500*0"></p>
+<p>从图中可以看到，这些点均匀分布，看上去很完美。那么下面我们来看看浮点表示：<br>概况而言，浮点数的表示的基本公式如下：</p>
+<script type="math/tex; mode=display">y = f(x) = (-1)^s \times M \times 2^E</script><p>其中：</p>
+<ul>
+<li>符号<code>s (short for sign)</code>决定表示的是正数<code>（s=0）</code>还是负数<code>(s=1)</code>，因此要占用<code>1 bit</code>；</li>
+<li>尾数<code>M</code>，尾数<code>significand</code>是一个<strong>二进制小数</strong>，它的范围是$1\sim2-\varepsilon$（规格化），或者是$0\sim1-\varepsilon$（非规格化）；<br>-阶码 <code>E (short for Exponent)</code>的作用是对浮点数加权，权重是2的<code>E</code>次幂（可能是负数）；<br>也就是说浮点数需要存储三个值：<strong>s/M/E</strong> 。看定义觉得很难懂，还是来点儿例子吧：我们以<code>32 bit</code>长度的<strong>单精度浮点数</strong>的表示为例来说明这一点：<br><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_17@2x.png" alt="@|center|600*0"><br>图中可以看出，<code>s/M/E</code>三部分占用的位数分别是<code>1</code>、<code>8</code>和<code>23</code>，除了<strong>符号位</strong>需要固定<code>1 bit</code>之外， <strong>尾数</strong>和<strong>阶码</strong>占用的位数实际上是根据实际需要自己定义的，这里因为我们通常对<strong>精度</strong>要求非常高，而对极大数的表示的要求有相对比较低，所以尾数表示占用的位数是阶码的三倍。</li>
+</ul>
+<p>而这里令人不愉快的是常规数的表示还分为<strong>规格化</strong>和<strong>非规格化</strong>两种，原因就是我们对<strong>精度</strong>要求的<strong>贪婪</strong>：在浮点数表示中，二进制的小数部分，第一位一定是<strong>1</strong>（要么是0要么是1），既然一定会有<strong>1</strong>的存在，那么我们就没有必要存储了，将其省掉，这样就等于后面又能多存储一位尾数！</p>
+<p>这里的阶码表示采用<strong>无符号数表示</strong>，但因为无符号表示的数只能是$0\sim255$，因此对于规格化的阶码部分的<strong>无符号数表示</strong>的值会在$1\sim254$之间，但我们还需要负数以表示<strong>绝对值极小</strong>的数，因此我们对这个值再减去一个常量$2^7 - 1$，也就是127，因此阶码的实际范围是$-126\sim127$。让我们继续用公式简单的总结一下对于<code>w</code>位表示的阶码值的计算我们有：</p>
+<script type="math/tex; mode=display">E = e - Bias，e = U_w, Bias = 2^{w-1}-1</script><p>其中<code>e</code>为无符号表示的阶码的值，<code>Bias</code>为偏移量。<br>规格化的浮点数表示虽然帮助<strong>贪婪</strong>的我们多表示了<strong>1位精度</strong>，但是却带来了另外一个尴尬的问题：由于我们贪婪的添加了一个<strong>无形的1</strong>（让我想起了经济学中的无形的手了^_^），就<strong>导致尾数部分永远不为零</strong>，这些完蛋了：我们没法表示<strong>零</strong>了！！！</p>
+<p>别急，我们的计算机科学家们并没有被这个困难所吓到，他们想了想，既然这样，那干脆在阶码为<code>0</code>的时候，我就不加那个<strong>无形的1</strong>了呗！但是呢，因为去掉了那个<strong>无形的1</strong>，其实是等价于我们的阶码值在规格化的基础上进行了减1（$2^{-1}$），那么为了保证<strong>在数值表示上，规格化到非规格化的平滑过渡</strong>，我们需要对阶码的计算公式人为的做一下调整，以<strong>对冲</strong>我们拿掉<strong>无形的1</strong>之后的阶码值的<strong>跳变</strong>，因此对于<code>w</code>位的<strong>非规格化</strong>的阶码值的计算我们有：</p>
+<script type="math/tex; mode=display">E_0 = e - Bias + 1 = 0 - Bias + 1 = 1 - Bias = 2^{w-1}，e = U_w, Bias = 2^{w-1}-1</script><p>ok，浮点数的定义现在我们彻底搞清楚了，这里的<strong>浮（float）</strong>的意义我们也清楚了：就是相对于<strong>定点数</strong>的表示，浮点数<strong>通过阶码的值的变化</strong>来达到<strong>小数点的浮动</strong>的效果，而不是我们的<strong>尾码或者阶码</strong>本身表示的位数变动的意思。</p>
+<p>如果不出意外的话，我们现在应该只剩下最后一个问题了：为什么选用浮点表示而不是定点表示呢？答案是<strong>浮点数表示更能贴服我们的需求</strong>：对于我们经常使用的实数范围进行更高密度的表达，而不是像定点数那个<strong>一视同仁</strong>，我们仍在Demo中看看，既然是要对比着找答案，那么我们就将<code>8 bit</code>长度的定点数和浮点数放在一起同时绘制出来，让我们来看看他们有什么不同：<br><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_18@2x.png" alt="@|center|600*0"></p>
+<p>很容易我们就发现了两点：</p>
+<ol>
+<li>浮点数表示的实数范围更小；</li>
+<li>浮点数表示的实数集合分布不均匀，越靠近<strong>零点</strong>，分布的越密集；</li>
+</ol>
+<p>关于上述两点，我们可以通过设置不同的二进制位数来确认这不是一种偶然：<br><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_19@2x.png" alt="@|center|600*0"><br><img src="http://ot6o6xw2z.bkt.clouddn.com/csapp_ch2_20@2x.png" alt="@|center|600*0"></p>
+<p>浮点数的分布不均匀的特性正式我们选择它的一个重要原因：既然实数是一个无穷集合，而我们的计算机资源是有限的，那么就必须<strong>要将好钢用在刀刃上</strong>：对于表示的范围不必那么大，够用就行；对于表示范围内常用的数值区间，我们提供更高的精度（尾数更长）来表示。</p>
+<p>好了，关于浮点数这一步分就先到这里，关于浮点数的计算就先不做展开了，不然本文的长度恐怕是有点吓人了。</p>
+<h4 id="5-0-小结"><a href="#5-0-小结" class="headerlink" title="5.0 小结"></a>5.0 小结</h4><p>没想到关于第二章的读书笔记会写这么长，也许是觉得信息的表示是计算机系统中基础的基础吧。本文通过<code>19</code>副图和一个<code>APP Demo</code>，强大的资源集合以及10个左右的数学公式，力图将信息在计算机系统的表示给讲清楚。</p>
+<p>计算机将信息编码为<strong>位（比特 or bit）</strong>，通常组织成字节序列。所有的整数、实数和字符串都通过这样一位位<code>01</code>字符串来表示，要想解析出其中所表示的信息，我们必须要按照预先约定好的解码规则进行解码。而本篇基本围绕着基本数据类型的编码规则来进行讲解：编码的方式（函数）以及为什么选用某一个编码方式而不选用另外一种方式。通过数学分析以及编写程序，从理论上和实际使用中找出原因，以期给自己也给本文的读者一个令人信服的答案。</p>
 
           
         
